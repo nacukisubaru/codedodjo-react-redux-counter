@@ -1,23 +1,26 @@
 
 import Store from './redux/store';
 
+//чистая функция так как передаем два параметра и работаем только с ними
+//неизменность данных так как на выходе мы вернем новый объект а не изменим старый
 function updateState(state, action) {
   if(action.type === 'INCREMENT') {
-      return state + action.amount
+      return {count: state.count + action.amount}
   } else if(action.type === 'DECREMENT') {
-      return state - action.amount
+      return {count: state.count - action.amount}
   } else {
       return state
   }
 }
 
 function App() {
-  const store = new Store(updateState, 5)
+  const initialState = {count: 0}
+  const store = new Store(updateState, initialState)
   
-  const unsubscribe =  store.subscribe(() => console.log('State changed', store.state))
+  const unsubscribe = store.subscribe(() => console.log('State changed', store.state))
   store.subscribe(() => console.log('State changed', store.state))
   store.update({type: 'INCREMENT', amount: 5})
-  unsubscribe()
+  //unsubscribe()
   store.update({type: 'DECREMENT', amount: 2})
   
   return (
