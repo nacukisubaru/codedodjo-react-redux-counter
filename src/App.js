@@ -13,13 +13,17 @@ function updateState(state, action) {
 
 function App() {
   const store = new Store(updateState, 5)
+  
+  const unsubscribe =  store.subscribe(() => console.log('State changed', store.state))
+  store.subscribe(() => console.log('State changed', store.state))
   store.update({type: 'INCREMENT', amount: 5})
+  unsubscribe()
   store.update({type: 'DECREMENT', amount: 2})
+  
   return (
     <div className="App">
      {
-       console.log(store.state())
-      //console.log(updateState(5, {type: 'INCREMENT', amount: 5}))
+    //   console.log(store.state())
      }
     </div>
   );
